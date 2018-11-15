@@ -1,12 +1,145 @@
+/* 去掉lvha */
+a:link,
+a:hover,
+a:visited,
+a:active{
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.red {
+  color: #A94442;
+}
+
+/* 重置时, 注意权重问题 */
+.table.table-bordered th,
+.table.table-bordered td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+
 .body_bg{
   background-color: #222d32;
 }
 .mt_150{
   margin-top: 200px;
 }
+.mt_20{
+  margin-top: 20px;
+}
 .panel-title{
   text-align: center;
   height: 40px;
   line-height: 40px;
   font-size: 18px;
+}
+.lt_aside{
+  position: fixed;
+  width: 180px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #222D32;
+  z-index: 999;
+  transition: all 1s;
+
+}
+.lt_aside.hidemenu{
+  left: -180px;
+}
+.lt_aside .brand{
+  width: 180px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #367fa9;
+  font-size: 20px;
+}
+.lt_aside .brand a{
+  color: #fff;
+}
+.lt_aside .user{
+  padding-top: 30px;
+  height: 180px;
+}
+.lt_aside .user img{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+}
+.lt_aside .user p{
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.lt_aside .nav li a{
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  padding-left: 40px;
+  border-left: 3px solid transparent;
+  display: block;
+}
+.lt_aside .nav li a.current{
+  background-color: #1d1f21;
+  border-left: 3px solid #006699;
+}
+.lt_aside .nav li a i{
+  margin-right: 5px;
+}
+.lt_aside .nav li .child{
+  display: none;
+}
+.lt_aside .nav li .child a{
+  padding-left: 60px;
+}
+
+
+.lt_main {
+  height: 1000px;
+  padding-left: 180px;
+  padding-top: 50px;
+  transition: all 1s;
+}
+.lt_main.hidemenu {
+  padding-left: 0px
+}
+.lt_topbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #3C8DBC;
+  padding-left: 180px;
+  transition: all 1s;
+}
+.lt_topbar.hidemenu {
+  padding-left: 0px;
+}
+.lt_topbar .icon_left,
+.lt_topbar .icon_right {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+}
+
+
+.echarts_left,
+.echarts_right {
+  height: 400px;
+  width: 48%;
 }
