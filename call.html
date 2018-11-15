@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./css/font-awesome.css"> -->
+    <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .box{
+      width: 800px;
+      height: 500px;
+      border-radius: 10px;
+      display: flex;
+      box-shadow: 0px 0px 4px 4px rgba(0,0,0,.4);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      overflow: hidden;
+    }
+    .video_left{
+      flex: 4;
+    }
+    .video_left video{
+      width: 100%;
+      height: 85%;
+      display: block;
+      background-color: #000;
+    }
+    .video_left .controls{
+      width: 100%;
+      height: 15%;
+      display: flex;
+      align-items: center;
+    }
+    .video_left .controls i{
+      flex: 1;
+      font-size: 30px;
+      color: turquoise;
+      cursor: pointer;
+      text-align: center;
+    }
+    .video_left .controls .range-play{
+      flex: 7;
+    }
+    .video_left .controls .volume{
+      position: relative;
+    }
+    .video_left .controls .volume:hover .range-volume{
+       display: block;
+    }
+    .video_left .controls .range-volume{
+      width: 80px;
+      position: absolute;
+      left: -5px;
+      top: -42px;
+      transform: rotate(-90deg);
+      display: none;
+    }
+
+
+
+
+
+
+
+    .video_right{
+      flex: 1;
+      background-color: #666;
+    }
+
+    .video_right ul li a{
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      display: block;
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+    }
+    </style>
+</head>
+<body>
+<div class="box">
+  <div class="video_left">
+    <video src="./movies/movie01.mp4"></video>
+    <div class="controls">
+     <i class="play fa fa-play"></i>
+     <i class="full fa fa-arrows-alt"></i>
+
+     <input type="range" class="range-play" value="0">
+
+     <i class="volume fa fa-volume-up">
+         <input type="range" class="range-volume" value="100">
+     </i>
+    </div>
+  </div>
+  
+  <div class="video_right">
+    <ul>
+        <li data-src="./movies/movie01.mp4"><a href="#">阿里里</a></li>
+        <li data-src="./movies/movie02.mp4"><a href="#">阿里里</a></li>
+        <li data-src="./movies/movie03.mp4"><a href="#">阿里里</a></li>
+        <li data-src="./movies/movie04.mp4"><a href="#">阿里里</a></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+//找对象
+var video = document.querySelector('video');
+var play = document.querySelector('.play');
+var full = document.querySelector('.full');
+var lis = document.querySelectorAll('.video_right ul li');
+var volume = document.querySelector('.volume');
+var rangePlay = document.querySelector('.range-play');
+var rangeVolume = document.querySelector('.range-volume');
+
+//   播放器或暂停
+play.addEventListener('click',function(){
+    if(play.classList.contains('fa-paly')){
+        //显示播放按钮 ，进行播放操作
+        video.play();
+        //播放以后移除播放类，添加暂停类
+        play.classList.remove('fa-play');
+        play.classList.add('fa-pause');
+    }
+    else{
+        //显示暂停按钮 进行暂停操作
+        video.pause();
+        //暂停以后移除暂停类，添加播放类
+        play.classList.remove('fa-pause');
+        play.classList.add('fa-play');
+    }
+})
+
+  // 全屏操作, 浏览器兼容方式: 能力检测
+  full.addEventListener("click", function() {
+    // 让 video 全屏
+    if ( video.requestFullScreen ) {
+      // 标准语法
+      video.requestFullScreen();
+    }
+    else if ( video.webkitRequestFullScreen ) {
+      // 兼容 chrome/safari
+      video.webkitRequestFullScreen();
+    }
+    else if ( video.mozRequestFullScreen ) {
+      // 兼容 火狐
+      video.mozRequestFullScreen();
+    }
+    else {
+      alert("大兄弟, 赶紧更新浏览器吧 !!!");
+    }
+  });
+
+
+  // video.play() 播放
+  // video.pause() 暂停
+
+  // video.currentTime 当前已播放的时长
+  // video.duration    视频总时长
+  // timeupdate: 视频播放进度更改时触发
+  // video.volume      控制音量
+
+
+  video.addEventListener('timeupdate',function(){
+      var percent = video.currentTime / video.duration * 100;
+      //设置value；
+      rangePlay.value = percent;
+  });
+
+  // 需要在用户修改了 rangePlay的 value 值时, 动态更新视频进度
+  rangePlay.addEventListener('change',function(){
+      // 求得用户想要切换的播放进度
+      var currentTime = (rangePlay.value / 100) * video.duration;
+
+      //赋值给video.currentTime;
+  });
+
+
+  //更改音量功能
+  rangePlay.addEventListener('change',function(){
+    //将所求得音量设置给video
+    video.volume = rangeVolume.value / 100;
+
+    if(video.volume === 0) {
+      //静音
+      volume.classList.remove('fa-volume-up');
+      volume.classList.add('fa-volume-off');
+    }
+    else{
+      volume.classList.remove('fa-volume-off');
+      volume.classList.add('fa-volume-up');
+    }
+  });
+
+  //   切换视频  其实就是切换video得src
+  lis.forEach(function(v, i){
+    v.addEventListener('click',function(){
+        //切换video的src
+        //获取当前li中的src
+        var src = this.dataset.src;
+
+        //设置给video
+        video.src = src;
+
+        //让视频播放
+        video.play();
+
+        //修改播放按钮得状态，变成暂停按钮
+        play.classList.remove('fa-play');
+        play.classList.add('fa-pause');
+    })
+  })
+</script>
+</body>
+</html>
