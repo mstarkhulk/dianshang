@@ -5,38 +5,36 @@ $(function(){
   render();
 
   // 根据 currentPage 和 pageSize 请求对应的数据, 进行渲染
-  function render(){
+function render(){
     $.ajax({
         type:'get',
-        dataType:'json',
         url:'/category/querySecondCategoryPaging',
+        dataType:'json',
         data:{
-            page:currentPage,
-            pageSize:pageSize
+          pageSize:pageSize,
+          page:currentPage
         },
         success:function(info){
             console.log(info);
-            var htmlStr = template("secondTpl",info);
-            $('tbody').html( htmlStr );
-            
+            var htmlStr = template('secondTpl',info);
+            $('tbody').html(htmlStr);
             // 进行分页初始化
             $('#paginator').bootstrapPaginator({
-                bootstrapMajorVersion: 3, // 版本号
-                totalPages:Math.ceil(info.total / info.size),
-                currentPage:info.page,
-                onPageClicked:function(q,w,e,page){
-                    currentPage = page;
-                    render();
-                }
+              bootstrapMajorVersion: 3, // 版本号
+              totalPages:Math.ceil( info.total / info.size ),
+              currentPage:info.page,
+              onPageClicked:function(q,w,e,page){
+                  currentPage = page;
+                  render();
+              }
             })
         }
     })
-  }
+}  
 
    // 2. 点击添加按钮, 显示添加模态框
 $('#addBtn').click(function(){
-    $('#addBtn').modal('show');
-
+    $('#addModal').modal("show");
     // 发送ajax请求, 获取下拉菜单的列表数据(全部的一级分类)
     // 通过分页获取一级分类的接口, 模拟获取全部数据的接口, page=1, pageSize: 100 
     $.ajax({
@@ -49,28 +47,34 @@ $('#addBtn').click(function(){
         },
         success:function(info){
             console.log(info);
-            var htmlStr = template('dropdownTpl',info);
-            $('.dropdownTpl-menu').html(htmlStr);
+            var htmlStr = template("dropdownTpl",info);
+            $('.dropdown-menu').html(htmlStr)
         }
-    }) 
-  });
+    })
+});
+
+
+
+
 
   // 3. 给下拉菜单的所有 a 添加点击事件, 通过事件委托注册
-  $('.dropdown-menu').on("click", "a", function() {
-    // 获取 a 的文本
-    var txt = $(this).text();
-    // 将文本设置给 按钮
-    $('#dropdownText').text( txt );
+  $('.dropdown-menu').on("click","a",function(){
+      // 获取 a 的文本
+      var txt = $(this).text();
+      // 将文本设置给 按钮
+      $('#dropdownText').text(txt);
+  
+      // 获取 id, 设置给准备好的 input
+      var id = $(this).data("id");
+      $('[name="categoryId"]').val( id );
+  
+      // $('[name="categoryId"]').trigger("input");
+  
+      // 手动将 name="categoryId" 的校验状态, 改成 VALID 校验成功
+      $('#form').data("bootstrapValidator").updateStatus("categoryId", "VALID")
 
-    // 获取 id, 设置给准备好的 input
-    var id = $(this).data("id");
-    $('[name="categoryId"]').val( id );
+  })
 
-    // $('[name="categoryId"]').trigger("input");
-
-    // 手动将 name="categoryId" 的校验状态, 改成 VALID 校验成功
-    $('#form').data("bootstrapValidator").updateStatus("categoryId", "VALID")
-  });
 
 
   // 4. 进行文件上传初始化
@@ -133,7 +137,5 @@ $('#addBtn').click(function(){
                 }
                 }
             }
-         
-    
-    });
+    })
 })
