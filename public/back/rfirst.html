@@ -127,7 +127,8 @@
 <script type="text/html" id="firstTpl">
   {{ each rows v i }}
     <tr>
-        <td>{{ i+1+(page-1)*size }}</td>
+        <!-- 第一行 不懂 -->
+        <td>{{ i+1+(page-1)*size }}</td> 
         <td>{{ v.categoryName }}</td>
     </tr>
   {{ /each }}

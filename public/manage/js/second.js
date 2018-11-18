@@ -84,6 +84,8 @@ $(function() {
     $('#form').data("bootstrapValidator").updateStatus("categoryId", "VALID");
   });
 
+
+  
   // 4. 配置图片上传
   $('#fileupload').fileupload({
     // 指定数据类型为 json

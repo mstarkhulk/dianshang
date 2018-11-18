@@ -4,8 +4,8 @@ $(function(){
   var pageSize = 5;
   render();
 
-  // 根据 currentPage 和 pageSize 请求对应的数据, 进行渲染
-function render(){
+  // 1. 根据 currentPage 和 pageSize 请求对应的数据, 进行渲染
+  function render(){
     $.ajax({
         type:'get',
         url:'/category/querySecondCategoryPaging',
@@ -30,10 +30,12 @@ function render(){
             })
         }
     })
-}  
+  }  
 
-   // 2. 点击添加按钮, 显示添加模态框
-$('#addBtn').click(function(){
+
+
+  // 2. 点击添加按钮, 显示添加模态框
+  $('#addBtn').click(function(){
     $('#addModal').modal("show");
     // 发送ajax请求, 获取下拉菜单的列表数据(全部的一级分类)
     // 通过分页获取一级分类的接口, 模拟获取全部数据的接口, page=1, pageSize: 100 
@@ -51,9 +53,7 @@ $('#addBtn').click(function(){
             $('.dropdown-menu').html(htmlStr)
         }
     })
-});
-
-
+  });
 
 
 
@@ -97,9 +97,10 @@ $('#addBtn').click(function(){
       $('#form').data("bootstrapValidator").updateStatus("brandLogo", "VALID");
     }
   });
+
   
   
-  //使用表单校验插件
+  // 5. 使用表单校验插件
     $('#form').bootstrapValidator({
          // 配置排序项, 默认会对隐藏域进行排除, 我们需要对隐藏域进行校验
         // excluded: [':disabled',':not(:visible)'],
@@ -118,7 +119,7 @@ $('#addBtn').click(function(){
                     notEmpty: {
                     message: "请选择一级分类"
                     }
-                }
+                  }
                 },
         
                 brandName: {
@@ -126,16 +127,43 @@ $('#addBtn').click(function(){
                     notEmpty: {
                     message: "请输入二级分类名称"
                     }
-                }
+                  }
                 },
-        
+
                 brandLogo: {
                 validators: {
                     notEmpty: {
                     message: "请选择图片"
                     }
-                }
+                  }
                 }
             }
+    });
+
+// 6. 注册表单校验成功事件, 阻止默认的表单提交, 通过 ajax 提交
+$('#form').on("success.form.bv",function( e ){
+    e.preventDefault();
+    $.ajax({
+        type:'post',
+        dataType:'json',
+        url:'/category/addSecondCategory',
+        data:$('#form').serialize(),
+        success:function(info){
+            console.log(info);
+            if(info.success){
+                $('#addModal').modal("hide");
+                currentPage = 1;
+                render();
+
+               // 需要重置内容 和 校验状态
+               $('#form').data("bootstrapValidator").resetForm( true );
+               // 由于按钮 和 图片不是表单元素, 需要手动重置
+               $('#dropdownText').text('请选择一级分类');
+               $('#imgBox img').attr("src","./images/none.png")
+            }
+        }
     })
+})
+
+    
 })
