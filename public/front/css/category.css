@@ -1,0 +1,43 @@
+.lt_category_left {
+    float: left;
+    width: 90px;
+    height: 100%;
+    position: relative;
+}
+.lt_category_left li a {
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #E3E4E5;
+    color: #666;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.lt_category_left li a.current {
+    background-color: #fff;
+    border-right: none;
+}
+.lt_category_right{
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.lt_category_right li{
+    width: 33.3%;
+    float: left;
+}
+.lt_category_right li img{
+    width: 70px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+}
+.lt_category_right li p{
+    display: block;
+    text-align: center;
+}
+.nomore {
+    padding: 10px;
+}

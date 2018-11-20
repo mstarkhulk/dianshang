@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./lib/mui/css/mui.css">
+    <link rel="icon" href="./favicon.ico">
+    <!-- 引入 font-awesome 字体图标库 -->
+    <link rel="stylesheet" href="./lib/fa/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/category.css">
+</head>
+<body>
+
+<!-- 由于内部是区域滚动, 所以外层是一个全屏容器 -->
+<div class="lt_container">
+        <div class="lt_header">
+          <a href="index.html" class="icon_left"><i class="fa fa-home"></i></a>
+          <h3>乐淘云购</h3>
+          <a href="search.html" class="icon_right"><i class="fa fa-search"></i></a>
+</div>
+    
+
+    <div class="lt_main">
+            <div class="lt_category_left">
+              <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                  <ul>
+                    <!-- 挖个坑 -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="lt_category_right">
+              <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                  <ul>
+                    <!-- 挖个坑 -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+    <div class="lt_footer">
+            <ul>
+              <li>
+                <a href="index.html">
+                  <i class="fa fa-home"></i>
+                  <p>首页</p>
+                </a>
+              </li>
+              <li>
+                <a href="category.html" class="current">
+                  <i class="fa fa-bars"></i>
+                  <p>分类页</p>
+                </a>
+              </li>
+              <li>
+                <a href="cart.html">
+                  <i class="fa fa-shopping-cart"></i>
+                  <p>购物车</p>
+                </a>
+              </li>
+              <li>
+                <a href="user.html">
+                  <i class="fa fa-user"></i>
+                  <p>用户中心</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+<script type="text/html" id="left_tpl">
+  {{ each rows v i }}
+    <li>
+      <a data-id="{{ v.id }}" class="{{ i === 0 ? 'current' : '' }}" href="#">{{ v.categoryName }}</a>
+    </li>
+  {{ /each }}
+</script>
+
+
+<script type="text/html" id="right_tpl">
+  {{ if rows.length === 0 }}
+    <p class="nomore">没有更多分类信息了</p>
+  {{ else }}
+    {{ each rows v i }}
+      <li>
+          <a href="#">
+            <img src="{{ v.brandLogo }}" alt="">
+            <p>{{ v.brandName }}</p>
+          </a>
+      </li>
+    {{ /each }}
+  {{ /if }}
+
+</script>
+
+
+<script src="./lib/mui/js/mui.js"></script>
+<script src="./lib/zepto/zepto.min.js"></script>
+<script src="./lib/artTemplate/template-web.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/category.js"></script>
+
+
+
+</body>
+</html>
